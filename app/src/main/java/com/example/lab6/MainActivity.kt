@@ -64,16 +64,6 @@ data class WorkshopResults(
     val workshopCurrent: Double = 1385.263
 )
 
-data class CalculationResult(
-    val groupUtilizationFactor: Double = 0.0,
-    val effectiveNumber: Double = 0.0,
-    val calculationFactor: Double = 0.0,
-    val activeLoadPower: Double = 0.0,
-    val reactiveLoadPower: Double = 0.0,
-    val fullPower: Double = 0.0,
-    val calculatedCurrent: Double = 0.0
-)
-
 
 @Composable
 private fun ResultsDisplay(results: WorkshopResults) {
@@ -115,7 +105,7 @@ private fun calculateWorkshopResults(equipmentList: List<Equipment>): WorkshopRe
     val sumPn = equipmentList.sumOf { it.quantity * it.nominalPower }
     val switchboardUtilizationFactor = sumPnKv / sumPn
 
-    val squaredSumPn = equipmentList.sumOf { it.quantity * it.nominalPower }.toDouble().pow(2)
+    val squaredSumPn = equipmentList.sumOf { it.quantity * it.nominalPower }.pow(2)
     val sumPnSquared = equipmentList.sumOf { it.quantity * it.nominalPower.pow(2) }
     val switchboardEffectiveNumber = squaredSumPn / sumPnSquared
 
@@ -126,10 +116,9 @@ private fun calculateWorkshopResults(equipmentList: List<Equipment>): WorkshopRe
     val sumPnKvTgPhi = equipmentList.sumOf {
         it.quantity * it.nominalPower * it.utilizationFactor * it.reactivePowerFactor
     }
-    val switchboardReactivePower = sumPnKvTgPhi
 
     val switchboardFullPower = sqrt(
-        switchboardActivePower.pow(2) + switchboardReactivePower.pow(2)
+        switchboardActivePower.pow(2) + sumPnKvTgPhi.pow(2)
     )
 
     val switchboardCurrent = switchboardActivePower / 0.38
@@ -161,7 +150,7 @@ private fun calculateWorkshopResults(equipmentList: List<Equipment>): WorkshopRe
         switchboardEffectiveNumber = switchboardEffectiveNumber,
         switchboardActivePowerCoef = switchboardActivePowerCoef,
         switchboardActivePower = switchboardActivePower,
-        switchboardReactivePower = switchboardReactivePower,
+        switchboardReactivePower = sumPnKvTgPhi,
         switchboardFullPower = switchboardFullPower,
         switchboardCurrent = switchboardCurrent,
         workshopUtilizationFactor = workshopUtilizationFactor,
