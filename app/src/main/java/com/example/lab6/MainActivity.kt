@@ -124,9 +124,9 @@ private fun calculateWorkshopResults(equipmentList: List<Equipment>): WorkshopRe
     val switchboardCurrent = switchboardActivePower / 0.38
 
 
-    val workshopUtilizationFactor = (752 / 2330).toDouble()
+    val workshopUtilizationFactor = 752.toDouble() / 2330.toDouble()
 
-    val workshopEffectiveNumber = 2330.toDouble().pow(2) / 96388
+    val workshopEffectiveNumber = 2330.toDouble().pow(2) / 96388.toDouble()
 
 
     val workshopActivePowerCoef = when {
