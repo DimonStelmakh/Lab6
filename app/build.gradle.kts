@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.lab6"
-    compileSdk = 34
+    compileSdk = 34  // Keep at 34 for now
 
     defaultConfig {
         applicationId = "com.example.lab6"
@@ -50,8 +50,10 @@ android {
 }
 
 dependencies {
+    val navVersion = "2.7.5"
 
-    implementation(libs.androidx.core.ktx)
+    // Use specific version of core-ktx that's compatible with compileSdk 34
+    implementation(libs.androidx.core.ktx.v1120)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -59,6 +61,18 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Additional Compose dependencies
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Foundation
+    implementation(libs.androidx.foundation)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
